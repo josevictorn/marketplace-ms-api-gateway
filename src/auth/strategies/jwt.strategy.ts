@@ -7,7 +7,7 @@ interface JwtPayload {
   sub?: string;
   email?: string;
   role?: string;
-  token?: string;
+  token: string;
 }
 
 @Injectable()
