@@ -4,10 +4,12 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 interface JwtPayload {
-  sub?: string;
-  email?: string;
-  role?: string;
+  sub: string;
+  email: string;
+  role: string;
   token: string;
+  iat?: number;
+  exp?: number;
 }
 
 @Injectable()
