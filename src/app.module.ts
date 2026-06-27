@@ -13,6 +13,10 @@ import { LoggingMiddleware } from './middleware/logging/logging.middleware';
 import { AuthModule } from './auth/auth.module';
 import { CustomThrottlerGuard } from './guard/throttler.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { HealthModule } from './health/health.module';
+import { HealthCheckModule } from './common/health/health-check.module';
+import { FallbackModule } from './common/fallback/fallback.module';
+import { CircuitBreakerModule } from './common/circuit-breaker/circuit-breaker.module';
 
 @Module({
   imports: [
@@ -43,6 +47,10 @@ import { APP_GUARD } from '@nestjs/core';
     ProxyModule,
     MiddlewareModule,
     AuthModule,
+    HealthModule,
+    HealthCheckModule,
+    FallbackModule,
+    CircuitBreakerModule,
   ],
   controllers: [AppController],
   providers: [

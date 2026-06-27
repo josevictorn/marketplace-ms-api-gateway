@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CircuitBreakerService } from 'src/common/circuit-breaker/circuit-breaker.service';
-import type { CacheFallbackService } from 'src/common/fallback/cache.fallback';
-import type { DefaultFallbackService } from 'src/common/fallback/default.fallback';
+import { CacheFallbackService } from 'src/common/fallback/cache.fallback';
+import { DefaultFallbackService } from 'src/common/fallback/default.fallback';
 import { serviceConfig } from 'src/config/gateway.config';
 
 interface UserInfo {
