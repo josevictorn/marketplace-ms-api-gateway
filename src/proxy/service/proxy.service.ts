@@ -4,6 +4,8 @@ import { firstValueFrom } from 'rxjs';
 import { CircuitBreakerService } from 'src/common/circuit-breaker/circuit-breaker.service';
 import { CacheFallbackService } from 'src/common/fallback/cache.fallback';
 import { DefaultFallbackService } from 'src/common/fallback/default.fallback';
+import { RetryService } from 'src/common/retry/retry.service';
+import { TimeoutService } from 'src/common/timeout/timeout.service';
 import { serviceConfig } from 'src/config/gateway.config';
 
 interface UserInfo {
@@ -21,6 +23,8 @@ export class ProxyService {
     private readonly circuitBreakerService: CircuitBreakerService,
     private readonly cacheFallbackService: CacheFallbackService,
     private readonly defaultFallbackService: DefaultFallbackService,
+    private readonly timeoutService: TimeoutService,
+    private readonly retryService: RetryService,
   ) {}
 
   async proxyRequest<T = unknown>(
@@ -40,33 +44,47 @@ export class ProxyService {
       | (() => T)
       | (() => Promise<T>);
 
+    // Layer 1: Circuit Breaker
     return this.circuitBreakerService.executeWithCircuitBreaker<T>(
-      async (): Promise<T> => {
-        const enhancedHeaders = {
-          ...headers,
-          'x-user-id': userInfo?.userId,
-          'x-user-email': userInfo?.email,
-          'x-user-role': userInfo?.role,
-        };
+      async () => {
+        // Layer 2: Retry
+        return await this.retryService.executeWithExponentialBackoff(
+          async () => {
+            // Layer 3: Timeout
+            return await this.timeoutService.executeWithCustomTimeout<T>(
+              // Operation to be executed with timeout
+              async (): Promise<T> => {
+                const enhancedHeaders = {
+                  ...headers,
+                  'x-user-id': userInfo?.userId,
+                  'x-user-email': userInfo?.email,
+                  'x-user-role': userInfo?.role,
+                };
 
-        const response = await firstValueFrom(
-          this.httpService.request<T>({
-            method: method.toLowerCase(),
-            url,
-            data,
-            headers: enhancedHeaders,
-            timeout: service.timeout,
-          }),
+                const response = await firstValueFrom(
+                  this.httpService.request<T>({
+                    method: method.toLowerCase(),
+                    url,
+                    data,
+                    headers: enhancedHeaders,
+                    timeout: service.timeout,
+                  }),
+                );
+
+                if (method.toLowerCase() === 'get') {
+                  this.cacheFallbackService.setCachedData(
+                    `${serviceName}-${path}`,
+                    response.data,
+                  );
+                }
+
+                return response.data;
+              },
+              service.timeout,
+            );
+          },
+          3, // maxRetries
         );
-
-        if (method.toLowerCase() === 'get') {
-          this.cacheFallbackService.setCachedData(
-            `${serviceName}-${path}`,
-            response.data,
-          );
-        }
-
-        return response.data;
       },
       `proxy-${serviceName}`,
       fallback,
@@ -76,29 +94,6 @@ export class ProxyService {
         resetTimeout: 30000,
       },
     );
-  }
-
-  async getServiceHealth(
-    serviceName: keyof typeof serviceConfig,
-  ): Promise<
-    | { status: 'healthy'; data: unknown }
-    | { status: 'unhealthy'; error: string }
-  > {
-    try {
-      const service = serviceConfig[serviceName];
-
-      const response = await firstValueFrom(
-        this.httpService.get<unknown>(`${service.url}/health`, {
-          timeout: 3000,
-        }),
-      );
-
-      return { status: 'healthy', data: response.data };
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : 'Unknown health check error';
-      return { status: 'unhealthy', error: message };
-    }
   }
 
   private createServiceFallback(
