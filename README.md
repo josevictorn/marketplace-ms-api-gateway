@@ -1,98 +1,98 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Marketplace - API Gateway 🚀
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Bem-vindo ao **API Gateway** do projeto Marketplace. Este serviço é a porta de entrada principal para nossa arquitetura de microsserviços, desenvolvida inteiramente do zero para ser robusta, escalável e resiliente.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📖 Sobre o Projeto
 
-## Description
+O API Gateway atua como um ponto único de entrada (Single Point of Entry) para todas as requisições de clientes (seja front-end web, aplicativos móveis ou integrações de terceiros), roteando-as de forma inteligente para os microsserviços apropriados no backend. 
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Além de simplificar a comunicação do cliente com o ecossistema de microsserviços, o Gateway centraliza responsabilidades críticas, fornecendo uma camada de resiliência para proteger a infraestrutura contra falhas.
 
-## Project setup
+## 🛠️ Tecnologias Utilizadas
+
+As principais tecnologias e ferramentas que compõem a base deste serviço incluem:
+
+- **[Node.js](https://nodejs.org/):** Ambiente de execução JavaScript server-side de alta performance, ideal para I/O não bloqueante.
+- **[NestJS](https://nestjs.com/):** Framework Node.js progressivo para a construção de aplicações eficientes, confiáveis e escaláveis, utilizando uma arquitetura modular.
+- **[TypeScript](https://www.typescriptlang.org/):** Superconjunto de JavaScript que adiciona tipagem estática, garantindo um código mais seguro e de fácil manutenção.
+
+## 🧠 Conceitos Avançados Aplicados
+
+Para garantir que a comunicação do API Gateway com os microsserviços seja extremamente resiliente e não sofra com falhas em cascata, implementamos os seguintes padrões arquiteturais avançados:
+
+- **Comunicação Assíncrona (Proxy):** Configuração de proxy reverso otimizada para integração transparente e de alta performance entre os serviços.
+- **Circuit Breaker:** Mecanismo de defesa que previne falhas em cascata. Ele monitora a taxa de erro nas chamadas a um microsserviço e, ao atingir um limite, "abre o circuito", interrompendo temporariamente as requisições e permitindo que o serviço degradado se recupere.
+- **Retry (Tentativas Automáticas):** Implementação de tentativas de reexecução para requisições que falharam devido a problemas transientes (como oscilações temporárias de rede).
+- **Fallback (Respostas de Contingência):** Fornecimento de respostas alternativas amigáveis ou dados em cache quando um serviço falha definitivamente ou quando o Circuit Breaker está acionado, garantindo a continuidade do serviço para o usuário.
+- **Timeout:** Controle rigoroso de tempo máximo de espera por respostas de serviços externos. Impede que o Gateway fique com recursos travados aguardando respostas de serviços lentos ou inoperantes.
+- **Health Checks:** Rotinas de monitoramento contínuo para verificar a saúde (status operacional) e a disponibilidade tanto do próprio API Gateway quanto de suas dependências vitais.
+- **Logs Estruturados:** Sistema de logging abrangente para facilitar o *tracing* (rastreamento) das requisições, monitoramento da saúde da aplicação e diagnóstico ágil de problemas em produção.
+
+## ⚙️ Instalação e Configuração
+
+### Pré-requisitos
+
+Certifique-se de ter instalado em sua máquina:
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- NPM (ou Yarn/PNPM)
+
+### Passos para Inicialização
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/josevictorn/marketplace-ms-api-gateway.git
+   cd marketplace-ms/api-gateway
+   ```
+
+2. **Instale as dependências do projeto:**
+   ```bash
+   npm install
+   ```
+
+3. **Variáveis de Ambiente:**
+   Crie um arquivo `.env` na raiz do projeto. Você pode usar um arquivo `.env.example` como base (se disponível) e configurar as variáveis essenciais, como a porta em que o servidor irá rodar e as URLs de destino dos microsserviços.
+
+### Executando a Aplicação
+
+Para iniciar o servidor, utilize um dos comandos abaixo:
 
 ```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# development
+# Modo de desenvolvimento padrão
 $ npm run start
 
-# watch mode
+# Modo de desenvolvimento com live-reload (Recomendado)
 $ npm run start:dev
 
-# production mode
+# Modo de produção (compila o TypeScript e roda o bundle)
+$ npm run build
 $ npm run start:prod
 ```
 
-## Run tests
+## 🧪 Testes
+
+O projeto já vem configurado com ferramentas de teste (Jest). Para executá-los:
 
 ```bash
-# unit tests
+# Executa testes unitários
 $ npm run test
 
-# e2e tests
+# Executa testes ponta a ponta (e2e)
 $ npm run test:e2e
 
-# test coverage
+# Exibe o relatório de cobertura de código
 $ npm run test:cov
 ```
 
-## Deployment
+## ✒️ Autor
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- **Nome:** José Victor do Nascimento Ferreira
+- **GitHub:** [Meu Perfil do GitHub](https://github.com/josevictorn)
+- **LinkedIn:** [Meu Perfil do LinkedIn](https://www.linkedin.com/in/jose-victor-nascimento/)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📞 Contato
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Para dúvidas, feedbacks ou troca de ideias sobre a arquitetura do projeto:
+- **E-mail:** [Meu E-mail](mailto:[josevictornascimento2016@gmail.com])
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+<p align="center">Construído com NestJS 🐈 e muito café ☕.</p>
