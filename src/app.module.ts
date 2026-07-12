@@ -22,6 +22,7 @@ import { RetryModule } from './common/retry/retry.module';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { CheckoutModule } from './checkout/checkout.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { CheckoutModule } from './checkout/checkout.module';
     ProductsModule,
     UsersModule,
     CheckoutModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [
