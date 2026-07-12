@@ -6,10 +6,8 @@ import {
   Body,
   Req,
   Param,
-  UseGuards,
 } from '@nestjs/common';
 import { ProxyService } from '../proxy/service/proxy.service';
-import { JwtAuthGuard } from '../guard/auth.guard';
 import { Request } from 'express';
 
 interface CustomRequest extends Request {
@@ -21,7 +19,6 @@ interface CustomRequest extends Request {
 }
 
 @Controller('cart')
-@UseGuards(JwtAuthGuard)
 export class CartProxyController {
   constructor(private readonly proxyService: ProxyService) {}
 
