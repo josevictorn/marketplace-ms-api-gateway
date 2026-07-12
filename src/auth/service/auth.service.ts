@@ -61,7 +61,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<AuthResponse> {
     try {
       const { data } = await firstValueFrom(
-        this.httpService.post(`${serviceConfig.users.url}/login`, loginDto, {
+        this.httpService.post(`${serviceConfig.users.url}/auth/login`, loginDto, {
           timeout: serviceConfig.users.timeout,
         }),
       );

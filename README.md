@@ -12,21 +12,21 @@ Além de simplificar a comunicação do cliente com o ecossistema de microsservi
 
 As principais tecnologias e ferramentas que compõem a base deste serviço incluem:
 
-- **[Node.js](https://nodejs.org/):** Ambiente de execução JavaScript server-side de alta performance, ideal para I/O não bloqueante.
-- **[NestJS](https://nestjs.com/):** Framework Node.js progressivo para a construção de aplicações eficientes, confiáveis e escaláveis, utilizando uma arquitetura modular.
-- **[TypeScript](https://www.typescriptlang.org/):** Superconjunto de JavaScript que adiciona tipagem estática, garantindo um código mais seguro e de fácil manutenção.
+- **[Node.js](https://nodejs.org/):** ambiente de execução JavaScript server-side de alta performance, ideal para I/O não bloqueante.
+- **[NestJS](https://nestjs.com/):** framework Node.js progressivo para a construção de aplicações eficientes, confiáveis e escaláveis, utilizando uma arquitetura modular.
+- **[TypeScript](https://www.typescriptlang.org/):** superconjunto de JavaScript que adiciona tipagem estática, garantindo um código mais seguro e de fácil manutenção.
 
 ## 🧠 Conceitos Avançados Aplicados
 
-Para garantir que a comunicação do API Gateway com os microsserviços seja extremamente resiliente e não sofra com falhas em cascata, implementamos os seguintes padrões arquiteturais avançados:
+Para garantir que a comunicação do API Gateway com os microsserviços seja extremamente resiliente e não sofra com falhas em cascata, implementei os seguintes padrões arquiteturais avançados:
 
-- **Comunicação Assíncrona (Proxy):** Configuração de proxy reverso otimizada para integração transparente e de alta performance entre os serviços.
-- **Circuit Breaker:** Mecanismo de defesa que previne falhas em cascata. Ele monitora a taxa de erro nas chamadas a um microsserviço e, ao atingir um limite, "abre o circuito", interrompendo temporariamente as requisições e permitindo que o serviço degradado se recupere.
-- **Retry (Tentativas Automáticas):** Implementação de tentativas de reexecução para requisições que falharam devido a problemas transientes (como oscilações temporárias de rede).
-- **Fallback (Respostas de Contingência):** Fornecimento de respostas alternativas amigáveis ou dados em cache quando um serviço falha definitivamente ou quando o Circuit Breaker está acionado, garantindo a continuidade do serviço para o usuário.
-- **Timeout:** Controle rigoroso de tempo máximo de espera por respostas de serviços externos. Impede que o Gateway fique com recursos travados aguardando respostas de serviços lentos ou inoperantes.
-- **Health Checks:** Rotinas de monitoramento contínuo para verificar a saúde (status operacional) e a disponibilidade tanto do próprio API Gateway quanto de suas dependências vitais.
-- **Logs Estruturados:** Sistema de logging abrangente para facilitar o *tracing* (rastreamento) das requisições, monitoramento da saúde da aplicação e diagnóstico ágil de problemas em produção.
+- **Comunicação assíncrona (Proxy):** configuração de proxy reverso otimizada para integração transparente e de alta performance entre os serviços.
+- **Circuit Breaker:** mecanismo de defesa que previne falhas em cascata. Ele monitora a taxa de erro nas chamadas a um microsserviço e, ao atingir um limite, "abre o circuito", interrompendo temporariamente as requisições e permitindo que o serviço degradado se recupere.
+- **Retry (tentativas automáticas):** implementação de tentativas de reexecução para requisições que falharam devido a problemas transientes (como oscilações temporárias de rede).
+- **Fallback (respostas de contingência):** fornecimento de respostas alternativas amigáveis ou dados em cache quando um serviço falha definitivamente ou quando o Circuit Breaker está acionado, garantindo a continuidade do serviço para o usuário.
+- **Timeout:** controle rigoroso de tempo máximo de espera por respostas de serviços externos. Impede que o Gateway fique com recursos travados aguardando respostas de serviços lentos ou inoperantes.
+- **Health Checks:** rotinas de monitoramento contínuo para verificar a saúde (status operacional) e a disponibilidade tanto do próprio API Gateway quanto de suas dependências vitais.
+- **Logs estruturados:** sistema de logging abrangente para facilitar o *tracing* (rastreamento) das requisições, monitoramento da saúde da aplicação e diagnóstico ágil de problemas em produção.
 
 ## ⚙️ Instalação e Configuração
 
