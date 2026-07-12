@@ -6,4 +6,4 @@ import { ProductsController } from './products.controller';
   imports: [ProxyModule],
   controllers: [ProductsController],
 })
-export class ProductsModule { }
+export class ProductsModule {}

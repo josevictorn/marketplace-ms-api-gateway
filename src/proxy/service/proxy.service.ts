@@ -73,7 +73,10 @@ export class ProxyService {
                 );
 
                 if (response.status >= 400) {
-                  throw new HttpException(response.data as any, response.status);
+                  throw new HttpException(
+                    response.data as any,
+                    response.status,
+                  );
                 }
 
                 if (method.toLowerCase() === 'get') {

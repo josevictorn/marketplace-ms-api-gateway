@@ -48,7 +48,7 @@ export class CircuitBreakerService {
       if (error instanceof HttpException && error.getStatus() < 500) {
         throw error;
       }
-      
+
       this.onFailure(circuit, key, config);
       const message =
         error instanceof Error ? error.message : 'Unknown operation error';
