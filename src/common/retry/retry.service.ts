@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException } from '@nestjs/common';
 import type { RetryOptions, RetryResult } from './retry.interface';
 
 @Injectable()
@@ -49,6 +49,10 @@ export class RetryService {
         this.logger.error(
           `Attempt ${attempt + 1} failed: ${lastError.message}`,
         );
+
+        if (error instanceof HttpException && error.getStatus() < 500) {
+          throw error;
+        }
 
         if (attempt < config.maxRetries) {
           const delay = this.calculateDelay(attempt, config);

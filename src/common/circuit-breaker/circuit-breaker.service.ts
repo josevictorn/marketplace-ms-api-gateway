@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpException } from '@nestjs/common';
 import {
   CircuitBreakerStateEnum,
   type CircuitBreakerOptions,
@@ -45,6 +45,10 @@ export class CircuitBreakerService {
       this.onSuccess(circuit, key);
       return result;
     } catch (error: unknown) {
+      if (error instanceof HttpException && error.getStatus() < 500) {
+        throw error;
+      }
+      
       this.onFailure(circuit, key, config);
       const message =
         error instanceof Error ? error.message : 'Unknown operation error';
